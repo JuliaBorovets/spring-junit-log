@@ -1,8 +1,7 @@
 package com.softserve.itacademy.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tasks")
@@ -78,5 +77,25 @@ public class Task {
                 ", todo = " + todo +
                 ", state = " + state +
                 "} ";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task)) return false;
+
+        Task task = (Task) o;
+
+        if (id != task.id) return false;
+        if (!Objects.equals(name, task.name)) return false;
+        return priority == task.priority;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (priority != null ? priority.hashCode() : 0);
+        return result;
     }
 }

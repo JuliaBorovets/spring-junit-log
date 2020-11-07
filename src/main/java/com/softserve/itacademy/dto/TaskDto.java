@@ -2,6 +2,7 @@ package com.softserve.itacademy.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 public class TaskDto {
     private long id;
@@ -67,5 +68,29 @@ public class TaskDto {
 
     public void setStateId(long stateId) {
         this.stateId = stateId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TaskDto)) return false;
+
+        TaskDto taskDto = (TaskDto) o;
+
+        if (id != taskDto.id) return false;
+        if (todoId != taskDto.todoId) return false;
+        if (stateId != taskDto.stateId) return false;
+        if (!Objects.equals(name, taskDto.name)) return false;
+        return Objects.equals(priority, taskDto.priority);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (priority != null ? priority.hashCode() : 0);
+        result = 31 * result + (int) (todoId ^ (todoId >>> 32));
+        result = 31 * result + (int) (stateId ^ (stateId >>> 32));
+        return result;
     }
 }
