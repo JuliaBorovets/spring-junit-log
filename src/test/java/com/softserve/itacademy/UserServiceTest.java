@@ -48,6 +48,7 @@ public class UserServiceTest {
         Mockito.when(userRepository.save(expected)).thenReturn(expected);
 
         User actual = userService.create(expected);
+
         Assertions.assertEquals(actual, expected);
     }
 
@@ -64,6 +65,7 @@ public class UserServiceTest {
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.ofNullable(expected));
 
         User actual = userService.readById(userId);
+
         Assertions.assertEquals(actual, expected);
     }
 
@@ -83,6 +85,7 @@ public class UserServiceTest {
         expected.setFirstName("Lora");
         expected.setPassword("9999");
         User actual = userService.update(expected);
+
         Assertions.assertEquals(actual, expected);
     }
 
@@ -98,6 +101,7 @@ public class UserServiceTest {
 
         expected.setFirstName("Lora");
         expected.setPassword("9999");
+
         Exception exception = Assertions.assertThrows(EntityNotFoundException.class, () -> userService.update(expected));
         Assertions.assertEquals("User with id " + userId + " not found", exception.getMessage());
         Mockito.verify(userRepository, Mockito.times(0)).save(Mockito.any(User.class));
@@ -108,6 +112,7 @@ public class UserServiceTest {
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.ofNullable(expected));
 
         userService.delete(userId);
+
         Mockito.verify(userRepository).findById(Mockito.anyLong());
         Mockito.verify(userRepository).delete(Mockito.any(User.class));
     }
@@ -127,6 +132,7 @@ public class UserServiceTest {
         Mockito.when(userRepository.findAll()).thenReturn(Collections.emptyList());
 
         List<User> actual = userService.getAll();
+
         Assertions.assertEquals(0, actual.size());
         Mockito.verify(userRepository).findAll();
     }
@@ -137,6 +143,7 @@ public class UserServiceTest {
         Mockito.when(userRepository.findAll()).thenReturn(expectedList);
 
         List<User> actual = userService.getAll();
+
         Assertions.assertTrue(actual.containsAll(expectedList) && expectedList.containsAll(actual));
         Mockito.verify(userRepository).findAll();
     }
