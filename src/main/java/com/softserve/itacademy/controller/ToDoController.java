@@ -25,7 +25,7 @@ public class ToDoController {
     private final ToDoService todoService;
     private final TaskService taskService;
     private final UserService userService;
-    Logger logger = LoggerFactory.getLogger(ToDoController.class);
+    private Logger logger = LoggerFactory.getLogger(ToDoController.class);
 
     public ToDoController(ToDoService todoService, TaskService taskService, UserService userService) {
         this.todoService = todoService;
