@@ -6,6 +6,8 @@ import com.softserve.itacademy.model.User;
 import com.softserve.itacademy.service.TaskService;
 import com.softserve.itacademy.service.ToDoService;
 import com.softserve.itacademy.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +25,7 @@ public class ToDoController {
     private final ToDoService todoService;
     private final TaskService taskService;
     private final UserService userService;
+    Logger logger = LoggerFactory.getLogger(ToDoController.class);
 
     public ToDoController(ToDoService todoService, TaskService taskService, UserService userService) {
         this.todoService = todoService;
@@ -32,6 +35,7 @@ public class ToDoController {
 
     @GetMapping("/create/users/{owner_id}")
     public String create(@PathVariable("owner_id") long ownerId, Model model) {
+        logger.info("Creating toDo");
         model.addAttribute("todo", new ToDo());
         model.addAttribute("ownerId", ownerId);
         return "create-todo";
@@ -50,6 +54,7 @@ public class ToDoController {
 
     @GetMapping("/{id}/tasks")
     public String read(@PathVariable long id, Model model) {
+        logger.info("Read toDo id={}", id);
         ToDo todo = todoService.readById(id);
         List<Task> tasks = taskService.getByTodoId(id);
         List<User> users = userService.getAll().stream()
@@ -62,6 +67,7 @@ public class ToDoController {
 
     @GetMapping("/{todo_id}/update/users/{owner_id}")
     public String update(@PathVariable("todo_id") long todoId, @PathVariable("owner_id") long ownerId, Model model) {
+        logger.info("Update toDo toDoId={}, ownerId={}", todoId, ownerId);
         ToDo todo = todoService.readById(todoId);
         model.addAttribute("todo", todo);
         return "update-todo";
@@ -83,12 +89,14 @@ public class ToDoController {
 
     @GetMapping("/{todo_id}/delete/users/{owner_id}")
     public String delete(@PathVariable("todo_id") long todoId, @PathVariable("owner_id") long ownerId) {
+        logger.info("Delete toDo toDoId={}, ownerId={}", todoId, ownerId);
         todoService.delete(todoId);
         return "redirect:/todos/all/users/" + ownerId;
     }
 
     @GetMapping("/all/users/{user_id}")
     public String getAll(@PathVariable("user_id") long userId, Model model) {
+        logger.info("GetAll toDo userId={}", userId);
         List<ToDo> todos = todoService.getByUserId(userId);
         model.addAttribute("todos", todos);
         model.addAttribute("user", userService.readById(userId));
@@ -97,6 +105,7 @@ public class ToDoController {
 
     @GetMapping("/{id}/add")
     public String addCollaborator(@PathVariable long id, @RequestParam("user_id") long userId) {
+        logger.info("AddCollaborator toDoId = {}, userId={}", id, userId);
         ToDo todo = todoService.readById(id);
         List<User> collaborators = todo.getCollaborators();
         collaborators.add(userService.readById(userId));
@@ -107,6 +116,7 @@ public class ToDoController {
 
     @GetMapping("/{id}/remove")
     public String removeCollaborator(@PathVariable long id, @RequestParam("user_id") long userId) {
+        logger.info("RemoveCollaborator toDoId = {}, userId={}", id, userId);
         ToDo todo = todoService.readById(id);
         List<User> collaborators = todo.getCollaborators();
         collaborators.remove(userService.readById(userId));
