@@ -1,4 +1,4 @@
-package com.softserve.itacademy;
+package com.softserve.itacademy.controller;
 
 import com.softserve.itacademy.model.User;
 import com.softserve.itacademy.repository.UserRepository;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-public class UserIntegrationTest {
+public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 

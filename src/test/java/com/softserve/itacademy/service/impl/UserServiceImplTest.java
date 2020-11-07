@@ -1,4 +1,4 @@
-package com.softserve.itacademy;
+package com.softserve.itacademy.service.impl;
 
 import com.softserve.itacademy.exception.NullEntityReferenceException;
 import com.softserve.itacademy.model.Role;
@@ -18,7 +18,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+public class UserServiceImplTest {
     @Mock
     private UserRepository userRepository;
 

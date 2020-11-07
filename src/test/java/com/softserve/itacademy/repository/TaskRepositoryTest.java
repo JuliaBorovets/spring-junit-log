@@ -1,4 +1,4 @@
-package com.softserve.itacademy;
+package com.softserve.itacademy.repository;
 
 import com.softserve.itacademy.model.Priority;
 import com.softserve.itacademy.model.Task;
