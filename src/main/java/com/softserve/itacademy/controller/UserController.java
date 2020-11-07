@@ -40,12 +40,13 @@ public class UserController {
         user.setPassword(user.getPassword());
         user.setRole(roleService.readById(2));
         User newUser = userService.create(user);
+        logger.info("Created user id = {}", newUser.getId());
         return "redirect:/todos/all/users/" + newUser.getId();
     }
 
     @GetMapping("/{id}/read")
     public String read(@PathVariable long id, Model model) {
-        logger.info("Read user id={}", id);
+        logger.info("Read user id = {}", id);
         User user = userService.readById(id);
         model.addAttribute("user", user);
         return "user-info";
@@ -53,7 +54,7 @@ public class UserController {
 
     @GetMapping("/{id}/update")
     public String update(@PathVariable long id, Model model) {
-        logger.info("Update user id={}", id);
+        logger.info("Updating user id = {}", id);
         User user = userService.readById(id);
         model.addAttribute("user", user);
         model.addAttribute("roles", roleService.getAll());
@@ -75,20 +76,21 @@ public class UserController {
             user.setRole(roleService.readById(roleId));
         }
         userService.update(user);
+        logger.info("Updated user id = {}", id);
         return "redirect:/users/" + id + "/read";
     }
 
 
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable("id") long id) {
-        logger.info("Delete user id={}", id);
+        logger.info("Delete user id = {}", id);
         userService.delete(id);
         return "redirect:/users/all";
     }
 
     @GetMapping("/all")
     public String getAll(Model model) {
-        logger.info("GetAll users");
+        logger.info("Get all users");
         model.addAttribute("users", userService.getAll());
         return "users-list";
     }
