@@ -24,6 +24,9 @@ class ToDoRepositoryTest {
     private UserRepository userRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     private TestEntityManager entityManager;
 
     @Test
@@ -41,6 +44,7 @@ class ToDoRepositoryTest {
         owner.setFirstName("First");
         owner.setLastName("Last");
         owner.setPassword("password");
+        owner.setRole(roleRepository.findById(1L).get());
         owner.setMyTodos(Arrays.asList(toDo1, toDo2));
 
         toDo1.setOwner(owner);
