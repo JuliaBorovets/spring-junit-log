@@ -2,10 +2,9 @@ package com.softserve.itacademy.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 @Entity
 @Table(name = "todos")
@@ -92,5 +91,25 @@ public class ToDo {
                 ", title = '" + title + '\'' +
                 ", createdAt = " + createdAt +
                 "} ";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ToDo)) return false;
+
+        ToDo toDo = (ToDo) o;
+
+        if (id != toDo.id) return false;
+        if (!Objects.equals(title, toDo.title)) return false;
+        return Objects.equals(createdAt, toDo.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        return result;
     }
 }
